@@ -1,0 +1,176 @@
+# m=[int(x ) for x in input().split()]
+# n=int(input())
+# print(m)
+# for i in range(n):
+#     last=m[-1]
+#     for j in range(len(m)-1,0,-1):
+#         m[j]=m[j-1]
+#         print(m)
+#     m[0]=last
+#     print()
+#     print(m)
+# print()
+# print(m)
+
+
+# Program to compute the number of lines, spaces, characters, and words in a file
+
+
+# def compute_file_stats(file_path):
+#     try:
+#         line_count=0
+#         word_count=0
+#         char_count=0
+#         space_count=0
+
+#         with open(file_path,'r') as file:
+#             for line in file:
+#                 line_count+=1
+#                 char_count+=len(line.rstrip('\n'))
+#                 space_count+=line.count(' ')
+#                 words=line.split()
+#                 word_count+=len(words)
+
+#         # Display the results
+#         print(f"Number of lines: {line_count}")
+#         print(f"Number of words: {word_count}")
+#         print(f"Number of characters: {char_count}")
+#         print(f"Number of spaces: {space_count}")
+    
+#     except FileNotFoundError:
+#         print("file doesn't exists")
+#     except Exception as e:
+#         print(f"error occurred:{e}")
+
+
+
+# # Provide the path to your file
+# file_path = input("Enter the path to the file: ")
+# compute_file_stats(file_path)
+
+# from cal import *
+# add=add(1,2)
+# print(add)
+# sub=sub(1,2)
+# print(sub)
+# mul=mul(1,2)
+# print(mul)
+# div=div(1,2)
+# print(div)
+
+
+
+# from PIL import Image
+
+# def main(filename):
+#     try:
+#         # Open the image
+#         img = Image.open(filename)
+        
+#         # Get image dimensions
+#         width, height = img.size
+#         print(f"Width: {width}, Height: {height}")
+        
+#         # Rotate the image 180 degrees
+#         img_rotated = img.rotate(180)
+#         rotated_path = r"C:\Users\HP\Desktop\projects\aiml projects\EqualEdge\uploads\rotated.jpg"
+#         img_rotated.save(rotated_path)
+#         print(f"Rotated image saved at: {rotated_path}")
+        
+#         # Crop the top-left quarter of the image
+#         area = (0, 0, width // 2, height // 2)
+#         img_crop = img.crop(area)
+#         cropped_path = r"C:\Users\HP\Desktop\projects\aiml projects\EqualEdge\uploads\cropped.jpg"
+#         img_crop.save(cropped_path)
+#         print(f"Cropped image saved at: {cropped_path}")
+        
+#         # Flip the image horizontally (left to right)
+#         img_transposed = img.transpose(Image.FLIP_LEFT_RIGHT)
+#         transposed_path = r"C:\Users\HP\Desktop\projects\aiml projects\EqualEdge\uploads\transposed.jpg"
+#         img_transposed.save(transposed_path)
+#         print(f"Transposed image saved at: {transposed_path}")
+
+#     except FileNotFoundError:
+#         print(f"Error: File '{filename}' not found. Please check the path and try again.")
+#     except Exception as e:
+#         print(f"An unexpected error occurred: {e}")
+
+# if __name__ == "__main__":
+#     filename = input("Enter the path to the image file: ")
+#     main(filename)
+
+# import pandas as pd
+# df=pd.read_csv('df.csv')
+# print(df.head())
+# indian=df[df['country']=="india"]
+# print(indian)
+# uni=df['country'].unique()
+# print(uni)
+# av=indian['age'].mean()
+# print(av)
+# g=df.groupby('course')['age'].mean()
+# print(g)
+
+# def perfect(n):
+#     if 0>n:
+#         return False,None
+#     root=0
+#     while n>=root*root:
+#         if root*root==n:
+#             return True,root
+#         root+=1
+#     return False,None
+# if __name__=="__main__":
+#     a=[int(x) for x in input().split()]
+#     for i in a:
+#         result,root=perfect(i)
+#         print(f"{i} is a perfect number={result}\n root({i})={root}")
+
+# def main(filename):
+#     try:
+#         v=0
+#         c=0
+#         d=0
+#         vowel="aeiou"
+#         con="bcdfghjklmnpqrstvwxyz"
+#         digit="1234567890"
+#         with open(filename,'r') as file:
+#             contents=file.read().lower()
+#             v=sum(1 for k in contents if k in vowel)
+#             c=sum(1 for k in contents if k in con)
+#             d=sum(1 for k in contents if k in digit)
+#             vf=max(vowel,key=contents.count)
+#             cf=max(con,key=contents.count)
+#             df=max(digit,key=contents.count)
+#             print(f"vf {vf} {v}")
+#             print(f"cf {cf} {c}")
+#             print(f"df {df} {d}")
+#     except FileNotFoundError:
+#         print("filenotfound")
+#     except Exception as e:
+#         print("error",e)
+# if __name__=="__main__":
+#     file=input()
+#     main(file)
+
+# from PIL import Image
+# def grayscale(file):
+#     try:
+#         img=Image.open(file)
+#         img_gray=img.convert("L")
+#         img_gray.save(r"C:\Users\HP\Desktop\projects\aiml projects\EqualEdge\gray.jpg")
+#         img_c=img_gray.convert("RGB")
+#         img_c.save(r"C:\Users\HP\Desktop\projects\aiml projects\EqualEdge\img_c.jpg")
+#     except Exception as e:
+#         print("e")
+
+# import cv2
+# i=r"C:\Users\HP\Desktop\projects\aiml projects\EqualEdge\gray.jpg"
+# g=cv2.imread(i,cv2.IMREAD_GRAYSCALE)
+# c=cv2.applyColorMap(g,cv2.COLORMAP_JET)
+cv2.imwrite("color.jpg",c)
+
+
+
+
+    
