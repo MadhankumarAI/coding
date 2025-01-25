@@ -358,6 +358,74 @@ print("Queue after all dequeues:", dq.display())
 
 
 
+class node:
+    def __init__(self,d):
+        self.d=d
+        self.next=None
+class sll:
+    def __init__(self):
+        self.head=None
+    def fapp(self,i):
+        n=node(i)
+        n.next=self.head
+        self.head=n
+    def bapp(self,i):
+        n=node(i)
+        if not self.head:
+            self.head=n
+            return 
+        c=self.head
+        while c.next:
+            c=c.next
+        c.next=n
+    def display(self):
+        t=self.head
+        while t:
+            print(f"{t.d}->",end="")
+            t=t.next
+        print("None")
+    def fpop(self):
+        if not self.head:
+            print("empty")
+            return None
+        k=self.head
+        self.head=k.next
+        print("poped",k.d)
+        k.next=None
+    def bpop(self):
+        t=self.head
+        if t is None:
+            return None
+        while t.next and t.next.next:
+            t=t.next
+        print("poped",t.next.d)
+        t.next=None
+        
+
+
+    def search(self,i):
+        k=1
+        t=self.head
+        while t.next:
+            if t.d==i:
+                print("found",k)
+                break
+            t=t.next
+            k+=1
+            
+s=sll()
+s.fapp(10)
+s.display()
+s.fapp(20)
+s.display()
+s.bapp(30)
+s.display()
+s.search(10)   
+s.fpop()
+s.bpop()
+s.display()
+
+
 
 
 
