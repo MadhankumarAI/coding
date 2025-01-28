@@ -356,7 +356,7 @@ print("Dequeued:", dq.dequeue())
 # Display the queue after all dequeues
 print("Queue after all dequeues:", dq.display())
 
-
+   ,
 
 class node:
     def __init__(self,d):
@@ -424,75 +424,75 @@ s.search(10)
 s.fpop()
 s.bpop()
 s.display()
-
- class node:
-#     def __init__(self,data):
-#         self.data=data
-#         self.pre=None
-#         self.next=None
-# class d:
-#     def __init__(self):
-#         self.head=None
-#     def fpush(self,item):
-#         n=node(item)
-#         if not self.head:
-#             self.head=n
-#             return
-#         n.next=self.head
-#         self.head.prev=n
-#         self.head=n
-#     def bpush(self,item):
-#         n=node(item)
-#         if not self.head:
-#             self.head=n
-#             return 
-#         t=self.head
-#         while t.next:
-#             t=t.next
-#         t.next=n
-#         n.prev=t
-#     def fpop(self):
-#         if not self.head:
-#             return
-#         k=self.head
-#         if k.next:
-#             self.head=k.next
-#             self.head.prev=None
-#         k.next=None
-#     def bpop(self):
-#         if not self.head:
-#             return 
-#         if self.head.next is None:
-#             self.head=None
-#             return 
-#         t=self.head
-#         while t.next:
-#             t=t.next
-#         t.prev.next=None
-#         t.next=None
-#         t.prev=None
-#     def df(self):
-#         if not self.head:
-#             print("empty")
-#             return 
-#         t=self.head
+---------------------------------------------------------------------------------
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.pre=None
+        self.next=None
+class d:
+    def __init__(self):
+        self.head=None
+    def fpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            return
+        n.next=self.head
+        self.head.prev=n
+        self.head=n
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            return 
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=n
+        n.prev=t
+    def fpop(self):
+        if not self.head:
+            return
+        k=self.head
+        if k.next:
+            self.head=k.next
+            self.head.prev=None
+        k.next=None
+    def bpop(self):
+        if not self.head:
+            return 
+        if self.head.next is None:
+            self.head=None
+            return 
+        t=self.head
+        while t.next:
+            t=t.next
+        t.prev.next=None
+        t.next=None
+        t.prev=None
+    def df(self):
+        if not self.head:
+            print("empty")
+            return 
+        t=self.head
         
-#         while t:
-#             print(f"{t.data}c->",end="")
-#             t=t.next
-#         print("None")
-# o=d()
-# o.fpush(10)
-# o.df()
-# o.bpush(20)
-# o.df()
-# o.fpush(30)
-# o.df()
-# o.fpop()
-# o.df()
-# o.bpop()
-# o.df()
-        
+        while t:
+            print(f"{t.data}c->",end="")
+            t=t.next
+        print("None")
+o=d()
+o.fpush(10)
+o.df()
+o.bpush(20)
+o.df()
+o.fpush(30)
+o.df()
+o.fpop()
+o.df()
+o.bpop()
+o.df()
+----------------------------------------------------------------------    
 class node:
     def __init__(self,data):
         self.data=data
@@ -532,8 +532,110 @@ class cs:
         while t.next!=self.head:
             print(f"{t.data}->",end="")
             t=t.next
-        print(f"[{self.head.data}]")
-o=cs()
+        print(f"{t.data}->[{self.head.data}]")
+    def fpop(self):
+        if not self.head:
+            return 
+        
+        t=self.head
+        while t.next!=self.head:
+            t=t.next
+        self.head=self.head.next
+        t.next=self.head
+    def bpop(self):
+        if not self.head:
+            return
+        if not self.head.next:
+            self.head=None
+            return
+        t=self.head
+        while t.next.next!=self.head:
+            t=t.next
+        t.next.next=None
+        t.next=self.head
+       
+    
+        
+
+
+
+o=cs() 
+o.fpush(10)
+o.d()
+o.bpush(20)
+o.d()
+o.fpush(30)
+o.d()
+o.fpop()
+o.d()
+o.bpop()
+o.d()
+
+10->[10]
+10->20->[10]
+30->10->20->[30]
+10->20->[10]
+10->[10]
+
+----------------------------------------------------------------
+
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.prev=None
+        self.next=None
+class cd:
+    def __init__(self):
+        self.head=None
+    def fpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            self.head.next=self.head
+            self.head.prev=self.head
+        if not self.head.next:
+            n.next=self.head
+            self.head.prev=n
+            self.head.next=n
+            n.prev=self.head
+            self.head=n
+        t=self.head
+        while t.next!=self.head:
+            t=t.next
+        n.next=self.head
+        self.head.prev=n
+        t.next=n
+        n.prev=t
+        self.head=n
+
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            self.head.next=self.head
+            self.head.prev=self.head
+        if not self.head.next:
+            self.head.next=n
+            n.prev=self.head
+            self.head.prev=n
+            n.next=self.head
+        t=self.head
+        while t.next!=self.head:
+            t=t.next
+        t.next=n
+        n.next=self.head
+        self.head.prev=n
+    def d(self):
+        if not self.head:
+            return
+        t=self.head
+        while t.next!=self.head:
+            print(f"{t.data}c->",end="")
+            t=t.next
+        print(f"{t.data}")
+        print(f"prev first ={t.data}\nnext of last={self.head.data}")
+        print("--------------------")
+o=cd()
 o.fpush(10)
 o.d()
 o.bpush(20)
@@ -541,14 +643,214 @@ o.d()
 o.fpush(30)
 o.d()
 
-    
+10
+prev first =10
+next of last=10
+--------------------
+10c->20
+prev first =20
+next of last=10
+--------------------
+30c->10c->20
+prev first =20
+next of last=30
+--------------------
+-----------------------------------------------------
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+class s:
+    def __init__(self):
+        self.head=None
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            return
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=n
+    def concat(self,k):
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=k.head
+    def d(self):
+        t=self.head
+        while t:
+            print(f"{t.data}->",end="")
+            t=t.next
+        print("None")
+o1=s()
+o2=s()
+o1.bpush(10)
+o1.bpush(20)
+o1.d()
+o2.bpush(30)
+o2.bpush(40)
+o2.d()
+o1.concat(o2)
+o1.d()
 
+10->20->None
+30->40->None
+10->20->30->40->None
 
+--------------------------------------------
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+class s:
+    def __init__(self):
+        self.head=None
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            return
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=n
+    def reverse(self):
+        t=self.head
+        new=None
+        while t:
+            nextnode=t.next
+            t.next=new
+            new=t
+            t=nextnode
+        self.head=new
+    def d(self):
+        t=self.head
+        while t:
+            print(f"{t.data}->",end="")
+            t=t.next
+        print("None")
+o=s()
+o.bpush(10)
+o.bpush(20)
+o.d()
+o.reverse()
+o.d()
 
+10->20->None
+20->10->None
 
+---------------------------------
+
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+class s:
+    def __init__(self):
+        self.head=None
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            return
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=n
+    def il(self,item,key):
+        n=node(item)
+        if not self.head:
+            print("empty")
+            return
+        if not self.head.next:
+            n.next=self.head
+            self.head=n
+            return
+        t=self.head
+        while t.next.data!=key:
+            t=t.next
+        n.next=t.next
+        t.next=n
         
+    def d(self):
+        t=self.head
+        while t:
+            print(f"{t.data}->",end="")
+            t=t.next
+        print("None")
+    def ir(self,item,key):
+        n=node(item)
+        if not self.head:
+            return
+        if self.head.next is None:
+            n=node(item)
+            self.head.next=n
+        t=self.head
+        while t.data!=key:
+            t=t.next
+        n.next=t.next
+        t.next=n
+o=s()
+o.bpush(10)
+o.bpush(20)
+o.d()
+o.il(30,20)
+o.d()
+o.ir(40,30)
+o.d()
 
+10->20->None
+10->30->20->None
+10->30->40->20->None
 
+---------------------------------
 
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+class s:
+    def __init__(self):
+        self.head=None
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            return
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=n
 
+    def mergesort(self,k):
+        t=self.head
+        while t.next:
+            t=t.next
+        t.next=k.head
         
+        s=True
+        while s:
+            t=self.head
+            s=False
+            while t and t.next:
+                if t.data>t.next.data:
+                    t.data,t.next.data=t.next.data,t.data
+                    s=True
+                t=t.next
+    def d(self):
+        t=self.head
+        while t:
+            print(f"{t.data}->",end="")
+            t=t.next
+        print("None")
+o1=s()
+o2=s()
+o1.bpush(20)
+o1.bpush(10)
+o2.bpush(40)
+o2.bpush(10)
+o1.d()
+o2.d()
+o1.mergesort(o2)
+o1.d()
