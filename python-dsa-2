@@ -425,6 +425,128 @@ s.fpop()
 s.bpop()
 s.display()
 
+ class node:
+#     def __init__(self,data):
+#         self.data=data
+#         self.pre=None
+#         self.next=None
+# class d:
+#     def __init__(self):
+#         self.head=None
+#     def fpush(self,item):
+#         n=node(item)
+#         if not self.head:
+#             self.head=n
+#             return
+#         n.next=self.head
+#         self.head.prev=n
+#         self.head=n
+#     def bpush(self,item):
+#         n=node(item)
+#         if not self.head:
+#             self.head=n
+#             return 
+#         t=self.head
+#         while t.next:
+#             t=t.next
+#         t.next=n
+#         n.prev=t
+#     def fpop(self):
+#         if not self.head:
+#             return
+#         k=self.head
+#         if k.next:
+#             self.head=k.next
+#             self.head.prev=None
+#         k.next=None
+#     def bpop(self):
+#         if not self.head:
+#             return 
+#         if self.head.next is None:
+#             self.head=None
+#             return 
+#         t=self.head
+#         while t.next:
+#             t=t.next
+#         t.prev.next=None
+#         t.next=None
+#         t.prev=None
+#     def df(self):
+#         if not self.head:
+#             print("empty")
+#             return 
+#         t=self.head
+        
+#         while t:
+#             print(f"{t.data}c->",end="")
+#             t=t.next
+#         print("None")
+# o=d()
+# o.fpush(10)
+# o.df()
+# o.bpush(20)
+# o.df()
+# o.fpush(30)
+# o.df()
+# o.fpop()
+# o.df()
+# o.bpop()
+# o.df()
+        
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+class cs:
+    def __init__(self):
+        self.head=None
+        
+    def fpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            self.head.next=self.head
+            return
+        t=self.head
+        while t.next!=self.head:
+            t=t.next
+        n.next=self.head
+        t.next=n
+        self.head=n
+
+    def bpush(self,item):
+        n=node(item)
+        if not self.head:
+            self.head=n
+            self.head.next=self.head
+            return
+        t=self.head
+        while t.next!=self.head:
+            t=t.next
+        t.next=n
+        n.next=self.head
+    def d(self):
+        if not self.head:
+            return 
+        t=self.head
+        while t.next!=self.head:
+            print(f"{t.data}->",end="")
+            t=t.next
+        print(f"[{self.head.data}]")
+o=cs()
+o.fpush(10)
+o.d()
+o.bpush(20)
+o.d()
+o.fpush(30)
+o.d()
+
+    
+
+
+
+
+        
 
 
 
