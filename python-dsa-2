@@ -854,3 +854,137 @@ o1.d()
 o2.d()
 o1.mergesort(o2)
 o1.d()
+
+---------------------------------------
+
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.l=None
+        self.r=None
+class t:
+    def __init__(self):
+        self.root=None
+    def add(self,item):
+        n=node(item)
+        if not self.root:
+            self.root=n
+            return
+        q=[self.root]
+        while q:
+            t=q.pop(0)
+            if not t.l:
+                t.l=n
+                return
+            else:
+                q.append(t.l)
+            if not t.r:
+                t.r=n
+                return 
+            else:
+                q.append(t.r)
+    def d(self):
+        q=[self.root]
+        while q:
+            t=q.pop(0)
+            print(t.data,end=" -")
+            if t.l:
+                q.append(t.l)
+            if t.r:
+                q.appenf(t.r)
+o=t()
+o.add(10)
+o.add(20)
+o.d()
+
+--------------------------------------
+
+class node:
+    def __init__(self,data):
+        self.data=data
+        self.l=None
+        self.r=None
+
+class t:
+    def __init__(self):
+        self.root=None
+    def add(self,item):
+        n=node(item)
+        if not self.root:
+            self.root=n
+            return
+        q=[self.root]
+        while q:
+            t=q.pop(0)
+            if not t.l:
+                t.l=n
+                return
+            else:
+                q.append(t.l)
+                
+            if not t.r:
+                t.r=n
+                return
+            else:
+                q.append(t.r)
+
+    def l(self):
+        q=[self.root]
+        while q:
+            t=q.pop(0)
+            print(t.data,end="-")
+            if t.l:
+                q.append(t.l)
+            if t.r:
+                q.append(t.r)
+        
+    def inorder(self,nl):
+        if nl:
+            self.inorder(nl.l)
+            print(nl.data,end="-")
+            self.inorder(nl.r)
+        
+    def pre(self,n):
+        if n:
+            print(n.data,end="-")
+            self.pre(n.l)
+            self.pre(n.r)
+        
+    def post(self,n):
+        if n:
+            self.post(n.l)
+            self.post(n.r)
+            print(n.data,end="-")
+o=t()
+o.add(10)
+o.add(20)
+o.add(30)
+o.add(40)
+o.add(50)
+print("level")
+o.l()
+print("inorder")
+o.inorder(o.root)
+print("pre")
+o.pre(o.root)
+print("post")
+o.post(o.root)
+
+level
+10-20-30-40-50-
+
+inorder
+40-20-50-10-30-
+
+pre
+10-20-40-50-30-
+
+post
+40-50-20-30-10-
+
+incase 40 has right child 60 and 60 has left child 70 then print 40 first and then go to right child in inorder 
+--------------------------
+
+
+
+
