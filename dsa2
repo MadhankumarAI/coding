@@ -30,4 +30,6 @@ Explanation: "101" does not appear in nums. "000", "010", "100", and "110" would
         return ''.join('1' if nums[i][i]=='0' else '0' for i in range(len(nums)))
 %%%% the brute force approach would be to find all the combinations and store in a list and compare it with the given list but that will have a space and time complexity of 2 power n . so we make use of counter diagonization method: which says that some infinties are greater than other infinites . here we create a string- binary digit by flipping the vakues of the ith sting element of the ith string . it will always guarentee a solution.
 
+
+R:  3,039,156
 ------------------------------------------------------------
