@@ -63,3 +63,28 @@ def qs_inplace(a,l,h):
 a=[23,10,78]
 qs_inplace(a,0,len(a)-1) # [10, 23,78]
 print(a)
+
+###################################### merge sort
+def p(arr):
+    if len(arr)<=1:
+        return arr
+    m=len(arr)//2
+    l=p(arr[:m])
+    r=p(arr[m:])
+    return merge(l,r)
+def merge(l,r):
+    s=[]
+    i=j=0
+    while i<len(l) and j<len(r):
+        if l[i]<r[j]:
+            s.append(l[i])
+            i+=1
+        else:
+            s.append(r[j])
+            j+=1
+    s.extend(l[i:])
+    s.extend(r[j:])
+    return s
+a=[2,1,5,7,3]
+print(p(a))  # Output: [1, 2, 3, 5,7]
+    
