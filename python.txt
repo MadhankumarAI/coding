@@ -1,0 +1,12 @@
+------------------------------------Zaalima intership-------------------------------------------------------------------------
+
+1/4/25
+deepcopy : creates a new object that is a copy of another object and this copied element will point to different location
+shallow copy:copy.copy - same m/m location
+list: to covert it an object to list dt, points to same m/m
+
+**Number**
+palliprime : palindrome + prime
+emrip: prime that is when reversed gives another different prime
+
+-----------------------
