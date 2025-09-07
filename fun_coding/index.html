@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ball Burst - Modern</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #ffffff;
+            background: #0a0a0a;
+        }
+
+        #vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .container {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 24px;
+            max-width: 90%;
+            width: 500px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .difficulty-selector {
+            margin-bottom: 2rem;
+        }
+
+        .difficulty-selector.hidden {
+            display: none;
+        }
+
+        .difficulty-selector h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .difficulty-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .difficulty-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .difficulty-card.selected {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .difficulty-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .difficulty-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.2rem;
+        }
+
+        .difficulty-odds {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .game-info {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            min-height: 2.5rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-indicator {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .balls-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .ball {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ball::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            width: 25%;
+            height: 25%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .ball:hover:not(.chosen) {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .ball.chosen {
+            cursor: not-allowed;
+            opacity: 0.8;
+            transform: scale(0.95);
+        }
+
+        .ball.safe {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-color: #10b981;
+        }
+
+        .ball.burst {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-color: #ef4444;
+            animation: burst 0.5s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(0.8); opacity: 0.3; }
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .game-button {
+            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .game-button:active {
+            transform: translateY(0);
+        }
+
+        #playAgainButton {
+            display: none;
+        }
+
+        #message-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            color: #ffffff;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .difficulty-grid {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+            
+            .balls-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .game-button {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="vanta-bg"></div>
+    <div class="container">
+        <h1>Choose</h1>
+        <div class="subtitle">wisely</div>
+        
+        <div class="difficulty-selector" id="difficulty-selector">
+            <h3>Choose Difficulty Level</h3>
+            <div class="difficulty-grid">
+                <div class="difficulty-card" data-level="1">
+                    <div class="difficulty-title">Very Easy</div>
+                    <div class="difficulty-desc">1 loaded ball</div>
+                    <div class="difficulty-odds">5 safe balls</div>
+                </div>
+                <div class="difficulty-card" data-level="2">
+                    <div class="difficulty-title">Easy</div>
+                    <div class="difficulty-desc">2 loaded balls</div>
+                    <div class="difficulty-odds">4 safe balls</div>
+                </div>
+                <div class="difficulty-card selected" data-level="3">
+                    <div class="difficulty-title">Medium</div>
+                    <div class="difficulty-desc">3 loaded balls</div>
+                    <div class="difficulty-odds">3 safe balls</div>
+                </div>
+                <div class="difficulty-card" data-level="4">
+                    <div class="difficulty-title">Hard</div>
+                    <div class="difficulty-desc">4 loaded balls</div>
+                    <div class="difficulty-odds">2 safe balls</div>
+                </div>
+                <div class="difficulty-card" data-level="5">
+                    <div class="difficulty-title">Very Hard</div>
+                    <div class="difficulty-desc">5 loaded balls</div>
+                    <div class="difficulty-odds">1 safe ball</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-info" id="game-info">
+            Click Start Game to begin
+            <span class="player-indicator" id="player-indicator" style="display: none;">Player 1</span>
+        </div>
+        <div id="balls-container" class="balls-grid" style="display: none;">
+        </div>
+        <div class="button-group">
+            <button id="startButton" class="game-button">Start Game</button>
+            <button id="playAgainButton" class="game-button">Play Again</button>
+        </div>
+        <div id="message-box"></div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                VANTA.FOG({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            highlightColor: 0x404040,
+            midtoneColor: 0x202020,
+            lowlightColor: 0x101010,
+            baseColor: 0x000000,
+            speed: 2.0,
+            zoom: 0.8
+                });
+            }, 100);
+        });
+
+        const ballsContainer = document.getElementById('balls-container');
+        const startButton = document.getElementById('startButton');
+        const playAgainButton = document.getElementById('playAgainButton');
+        const gameInfo = document.getElementById('game-info');
+        const messageBox = document.getElementById('message-box');
+        const playerIndicator = document.getElementById('player-indicator');
+        const difficultySelector = document.getElementById('difficulty-selector');
+        const difficultyCards = document.querySelectorAll('.difficulty-card');
+        
+        const NUM_BALLS = 6;
+        let NUM_LOADED = 3; 
+        let loadedBalls = [];
+        let currentPlayer = 1;
+        let isGameActive = false;
+     
+        difficultyCards.forEach(function(card) {
+            card.addEventListener('click', function() {
+       
+                difficultyCards.forEach(function(c) {
+                    c.classList.remove('selected');
+                });
+               
+                this.classList.add('selected');
+           
+                NUM_LOADED = parseInt(this.dataset.level);
+            });
+        });
+        
+        function showMessage(message, duration = 2000) {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, duration);
+        }
+
+        function createBalls() {
+            ballsContainer.innerHTML = '';
+            ballsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)'; // 
+            for (let i = 0; i < NUM_BALLS; i++) {
+                const ball = document.createElement('div');
+                ball.classList.add('ball');
+                ball.dataset.index = i;
+                ball.addEventListener('click', handleBallClick);
+                ballsContainer.appendChild(ball);
+            }
+        }
+
+        function startGame() {
+            isGameActive = true;
+            currentPlayer = 1;
+            loadedBalls = getRandomLoadedBalls(NUM_BALLS, NUM_LOADED);
+     
+            difficultySelector.classList.add('hidden');
+            startButton.style.display = 'none';
+            playAgainButton.style.display = 'none';
+            ballsContainer.style.display = 'grid';
+            playerIndicator.style.display = 'inline-block';
+            
+            createBalls();
+            updateGameInfo();
+        }
+
+        function getRandomLoadedBalls(total, loaded) {
+            const indices = Array.from({length: total}, function(_, i) { return i; });
+            const loadedSet = new Set();
+            while (loadedSet.size < loaded) {
+                const randomIndex = Math.floor(Math.random() * indices.length);
+                const loadedIndex = indices.splice(randomIndex, 1)[0];
+                loadedSet.add(loadedIndex);
+            }
+            return Array.from(loadedSet);
+        }
+
+        function handleBallClick(event) {
+            if (!isGameActive) return;
+
+            const ball = event.target;
+            const index = parseInt(ball.dataset.index);
+
+            if (ball.classList.contains('chosen')) {
+                showMessage("Ball already chosen");
+                return;
+            }
+
+            ball.classList.add('chosen');
+
+            if (loadedBalls.includes(index)) {
+                ball.classList.add('burst');
+                gameInfo.innerHTML = 'Player ' + currentPlayer + ' loses';
+                isGameActive = false;
+                showMessage('Player ' + currentPlayer + ' chose a loaded ball');
+                setTimeout(function() {
+                    showAllBalls();
+                    playAgainButton.style.display = 'inline-block';
+                }, 1000);
+                return;
+            } else {
+                ball.classList.add('safe');
+                showMessage('Player ' + currentPlayer + ' is safe');
+                
+                const safeBallsChosen = document.querySelectorAll('.ball.safe').length;
+                const totalSafeBalls = NUM_BALLS - NUM_LOADED;
+                
+                if (safeBallsChosen === totalSafeBalls) {
+                    gameInfo.innerHTML = 'Player ' + currentPlayer + ' wins';
+                    isGameActive = false;
+                    showMessage('Player ' + currentPlayer + ' wins the game!');
+                    setTimeout(function() {
+                        showAllBalls();
+                        playAgainButton.style.display = 'inline-block';
+                    }, 1000);
+                    return;
+                }
+            }
+
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            updateGameInfo();
+        }
+
+        function updateGameInfo() {
+            gameInfo.innerHTML = 'Player ' + currentPlayer + '\'s turn <span class="player-indicator">Player ' + currentPlayer + '</span>';
+        }
+        
+        function showAllBalls() {
+            const allBalls = document.querySelectorAll('.ball');
+            allBalls.forEach(function(ball) {
+                const ballIndex = parseInt(ball.dataset.index);
+                ball.classList.add('chosen');
+                if (loadedBalls.includes(ballIndex)) {
+                    ball.classList.add('burst');
+                } else {
+                    ball.classList.add('safe');
+                }
+            });
+        }
+        
+        function resetGame() {
+            ballsContainer.style.display = 'none';
+            playAgainButton.style.display = 'none';
+            startButton.style.display = 'inline-block';
+            difficultySelector.classList.remove('hidden');
+            gameInfo.innerHTML = 'Click Start Game to begin';
+            playerIndicator.style.display = 'none';
+        }
+        
+        startButton.addEventListener('click', startGame);
+        playAgainButton.addEventListener('click', function() {
+            resetGame();
+            setTimeout(startGame, 100);
+        });
+    </script>
+</body>
+</html>
